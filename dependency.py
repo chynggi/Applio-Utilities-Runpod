@@ -30,8 +30,8 @@ def setup_environment(ForceUpdateDependencies, ForceTemporaryStorage):
     if not ForceTemporaryStorage:
         from google.colab import drive
 
-        if not os.path.exists('/content/drive'):
-            drive.mount('/content/drive')
+        if not os.path.exists('/workspace/drive'):
+            drive.mount('/workspace/drive')
         else:
             print('Drive is already mounted. Proceeding...')
 
@@ -98,11 +98,11 @@ def setup_environment(ForceUpdateDependencies, ForceTemporaryStorage):
 
     # Check if CachedRVC.tar.gz exists
     if ForceTemporaryStorage:
-        file_path = '/content/CachedRVC.tar.gz'
+        file_path = '/workspace/CachedRVC.tar.gz'
     else:
-        file_path = '/content/drive/MyDrive/RVC_Cached/CachedRVC.tar.gz'
+        file_path = '/workspace/drive/MyDrive/RVC_Cached/CachedRVC.tar.gz'
 
-    content_file_path = '/content/CachedRVC.tar.gz'
+    content_file_path = '/workspace/CachedRVC.tar.gz'
     extract_path = '/'
 
     if not os.path.exists(file_path):
@@ -151,20 +151,20 @@ def setup_environment(ForceUpdateDependencies, ForceTemporaryStorage):
             ForceUpdateDependencies = False
     else:
         print('CachedRVC.tar.gz not found. Proceeding to create an index of all current files...')
-        scan_and_write('/usr/', '/content/usr_files.csv')
+        scan_and_write('/usr/', '/workspace/usr_files.csv')
 
         install_packages()
 
-        scan_and_write('/usr/', '/content/usr_files_new.csv')
-        changed_files = compare_files('/content/usr_files.csv', '/content/usr_files_new.csv')
+        scan_and_write('/usr/', '/workspace/usr_files_new.csv')
+        changed_files = compare_files('/workspace/usr_files.csv', '/workspace/usr_files_new.csv')
 
-        with tarfile.open('/content/CachedRVC.tar.gz', 'w:gz') as new_tar:
+        with tarfile.open('/workspace/CachedRVC.tar.gz', 'w:gz') as new_tar:
             for file in changed_files:
                 new_tar.add(file)
                 print(f'Added to tar: {file}')
 
-        os.makedirs('/content/drive/MyDrive/RVC_Cached', exist_ok=True)
-        shutil.copy('/content/CachedRVC.tar.gz', '/content/drive/MyDrive/RVC_Cached/CachedRVC.tar.gz')
+        os.makedirs('/workspace/drive/MyDrive/RVC_Cached', exist_ok=True)
+        shutil.copy('/workspace/CachedRVC.tar.gz', '/workspace/drive/MyDrive/RVC_Cached/CachedRVC.tar.gz')
         print('Updated CachedRVC.tar.gz copied to Google Drive.')
         print('Dependencies fully up to date; future runs should be faster.')
 

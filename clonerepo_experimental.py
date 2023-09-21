@@ -11,9 +11,9 @@ def run_script():
         process = subprocess.run(cmd, shell=True, check=True, text=True)
         return process.stdout
 
-    # Change the current directory to /content/
-    os.chdir('/content/')
-    print("Changing dir to /content/")
+    # Change the current directory to /workspace/
+    os.chdir('/workspace/')
+    print("Changing dir to /workspace/")
 
     # Your function to edit the file
     def edit_file(file_path):
@@ -63,9 +63,9 @@ def run_script():
                             changes_made = True
                         line = new_line
 
-                new_line = line.replace('label=i18n("输入训练文件夹路径"), value="E:\\\\语音音频+标注\\\\米津玄师\\\\src"', 'label=i18n("输入训练文件夹路径"), value="/content/dataset/"')
+                new_line = line.replace('label=i18n("输入训练文件夹路径"), value="E:\\\\语音音频+标注\\\\米津玄师\\\\src"', 'label=i18n("输入训练文件夹路径"), value="/workspace/dataset/"')
                 if new_line != line:
-                    print("Replaced 'label=i18n(\"输入训练文件夹路径\"), value=\"E:\\\\语音音频+标注\\\\米津玄师\\\\src\"' with 'label=i18n(\"输入训练文件夹路径\"), value=\"/content/dataset/\"'")
+                    print("Replaced 'label=i18n(\"输入训练文件夹路径\"), value=\"E:\\\\语音音频+标注\\\\米津玄师\\\\src\"' with 'label=i18n(\"输入训练文件夹路径\"), value=\"/workspace/dataset/\"'")
                     changes_made = True
                 line = new_line
 
@@ -99,7 +99,7 @@ def run_script():
             print("No changes were needed.")
 
     # Define the repo path
-    repo_path = '/content/Applio-RVC-Fork'
+    repo_path = '/workspace/Applio-RVC-Fork'
 
     def copy_all_files_in_directory(src_dir, dest_dir):
         # Iterate over all files in source directory
@@ -117,7 +117,7 @@ def run_script():
         # New repository link
         new_repo_link = "https://github.com/IAHispano/Applio-RVC-Fork/"
         # Temporary path to clone the repository
-        temp_repo_path = "/content/temp_Applio-RVC-Fork"
+        temp_repo_path = "/workspace/temp_Applio-RVC-Fork"
         # New folder name
         new_folder_name = "Applio-RVC-Fork"
 
@@ -159,9 +159,9 @@ def run_script():
         copy_all_files_in_directory(temp_repo_path, repo_path)
         print(f"Copying all {new_folder_name} files from GitHub.")
 
-        # Change working directory back to /content/
-        os.chdir('/content/')
-        print("Changed path back to /content/")
+        # Change working directory back to /workspace/
+        os.chdir('/workspace/')
+        print("Changed path back to /workspace/")
         
         # Remove the temporary cloned repository
         shutil.rmtree(temp_repo_path)
@@ -170,20 +170,20 @@ def run_script():
     clone_and_copy_repo(repo_path)
 
     # Download the credentials file for RVC archive sheet
-    os.makedirs('/content/Applio-RVC-Fork/stats/', exist_ok=True)
-    run_cmd("wget -q https://cdn.discordapp.com/attachments/945486970883285045/1114717554481569802/peppy-generator-388800-07722f17a188.json -O /content/Applio-RVC-Fork/stats/peppy-generator-388800-07722f17a188.json")
+    os.makedirs('/workspace/Applio-RVC-Fork/stats/', exist_ok=True)
+    run_cmd("wget -q https://cdn.discordapp.com/attachments/945486970883285045/1114717554481569802/peppy-generator-388800-07722f17a188.json -O /workspace/Applio-RVC-Fork/stats/peppy-generator-388800-07722f17a188.json")
 
     # Forcefully delete any existing torchcrepe dependencies downloaded from an earlier run just in case
-    shutil.rmtree('/content/Applio-RVC-Fork/torchcrepe', ignore_errors=True)
-    shutil.rmtree('/content/torchcrepe', ignore_errors=True)
+    shutil.rmtree('/workspace/Applio-RVC-Fork/torchcrepe', ignore_errors=True)
+    shutil.rmtree('/workspace/torchcrepe', ignore_errors=True)
 
     # Download the torchcrepe folder from the maxrmorrison/torchcrepe repository
     run_cmd("git clone https://github.com/maxrmorrison/torchcrepe.git")
-    shutil.move('/content/torchcrepe/torchcrepe', '/content/Applio-RVC-Fork/')
-    shutil.rmtree('/content/torchcrepe', ignore_errors=True)  # Delete the torchcrepe repository folder
+    shutil.move('/workspace/torchcrepe/torchcrepe', '/workspace/Applio-RVC-Fork/')
+    shutil.rmtree('/workspace/torchcrepe', ignore_errors=True)  # Delete the torchcrepe repository folder
 
-    # Change the current directory to /content/Applio-RVC-Fork
-    os.chdir('/content/Applio-RVC-Fork')
+    # Change the current directory to /workspace/Applio-RVC-Fork
+    os.chdir('/workspace/Applio-RVC-Fork')
     os.makedirs('pretrained', exist_ok=True)
     os.makedirs('uvr5_weights', exist_ok=True)
 
@@ -225,7 +225,7 @@ def download_pretrained_models():
     }
     part2 = "I"
     base_url = "https://huggingface.co/lj1995/VoiceConversionWebU" + part2 + "/resolve/main/"
-    base_path = "/content/Applio-RVC-Fork/"
+    base_path = "/workspace/Applio-RVC-Fork/"
     base_pathm = base_path
 
     # Calculate total number of files to download
